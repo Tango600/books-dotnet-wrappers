@@ -2,22 +2,23 @@
 
 The .Net library for intigrating with the Zoho Books API.
 
-## Installation
-
-To install the ZohoBooks .Net Client Library, run the following command in [NuGet's](https://nuget.org/) console.
-
-	$ Install -package ZohoBooks
-
-To build the project from source, run the following command:
-	
-	$ git clone git@github.com:books-dotnet.git
-
-Note: NuGet is the package manager for Microsoft Visual Studio.
-
 ## Documentation
  [API Reference](https://www.zoho.com/books/api/v3/index.html)
 
 ## Usage 
+
+```C#
+var zbConn = new ZohoBooks(new ZohoCredentials
+{
+    RefreshToken = "1000.9e9eeb06ea1e20e89ba9deea0dc6a3ed.92bd0e21a95588d7a8cacf5914920b13",
+    ServerDomen = "eu",
+    ClientID = "1000.N1FLY2AD74ZL380927SWAYF2PHPDZR",
+    ClientSecret = "bfda9c0dc80a40c5b1f24647dd387bc43bf436af52",
+    OrganizationID = "20167496031"
+});
+var vendorAPI = zbConn.GetVendorPaymentsApi();
+var list = vendorAPI.GetVendorPayments(new Dictionary<object, object>());
+```
 
 In order to access the Zoho Books APIs, users need to have a valid Zoho account and a valid Auth Token.
 
