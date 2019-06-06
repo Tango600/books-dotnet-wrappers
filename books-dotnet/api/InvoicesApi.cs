@@ -28,10 +28,10 @@ namespace zohobooks.api
     ///     Add a comment or attachment to the invoice,<br></br>
     ///     Delete the invoice,payment made to invoice or comment of the invoice.<br></br>
     /// </summary>
-    public class InvoicesApi:Api
+    public class InvoicesApi : Api
     {
-        
-        static string baseAddress =baseurl + "/invoices";
+        string baseAddress { get => baseurl + "/invoices"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InvoicesApi" /> class.
         /// </summary>
@@ -202,7 +202,7 @@ namespace zohobooks.api
             var jsonString = new Dictionary<object, object>();
             jsonString.Add("JSONString", json);
             var files = new KeyValuePair<string, string[]>("attachments", attachment_paths);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(parameters),jsonString,files);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(parameters), jsonString, files);
             string responceContent = responce.Content.ReadAsStringAsync().Result;
             return InvoiceParser.getMessage(responce);
         }
@@ -296,7 +296,7 @@ namespace zohobooks.api
             string url = baseAddress + "/pdf";
             ZohoHttpClient.getFile(url, getQueryParameters(parameters));
             return "the selected invoices are exported ";
-            
+
         }
 
         /// <summary>
@@ -309,8 +309,8 @@ namespace zohobooks.api
         public string BulkPrint(Dictionary<object, object> parameters)
         {
             string url = baseAddress + "/print";
-             ZohoHttpClient.getFile(url, getQueryParameters(parameters));
-                return "the selected invoices are printed ";
+            ZohoHttpClient.getFile(url, getQueryParameters(parameters));
+            return "the selected invoices are printed ";
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace zohobooks.api
         /// <returns>List of Template objects.</returns>
         public TemplateList GetTemplates()
         {
-            string url = baseAddress + "/templates" ;
+            string url = baseAddress + "/templates";
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return CreditNoteParser.getTemplateList(responce);
         }
@@ -412,11 +412,11 @@ namespace zohobooks.api
         /// <returns>System.String<br></br> The success message is "Invoice information has been updated." </returns>
         public string UpdateTemplate(string invoice_id, string template_id)
         {
-            string url = baseAddress +"/"+ invoice_id+"/templates/"+template_id ;
+            string url = baseAddress + "/" + invoice_id + "/templates/" + template_id;
             var responce = ZohoHttpClient.put(url, getQueryParameters());
             return InvoiceParser.getMessage(responce);
         }
-//-------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the list of payments made for an invoice.
         /// </summary>
@@ -465,7 +465,7 @@ namespace zohobooks.api
         /// <returns>System.String<br></br> The success message is "The payment has been deleted."</returns>
         public string DeletePayment(string invoice_id, string payment_id)
         {
-            string url = baseAddress + "/" + invoice_id+"/payments/"+payment_id;
+            string url = baseAddress + "/" + invoice_id + "/payments/" + payment_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return InvoiceParser.getMessage(responce);
         }
@@ -478,11 +478,11 @@ namespace zohobooks.api
         /// <returns>System.String<br></br> The success message is "Credits applied to an invoice have been deleted." </returns>
         public string DelteAppliedCredit(string invoice_id, string creditnote_id)
         {
-            string url = baseAddress + "/" + invoice_id + "/creditsapplied/" + creditnote_id;;
+            string url = baseAddress + "/" + invoice_id + "/creditsapplied/" + creditnote_id; ;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return InvoiceParser.getMessage(responce);
         }
-//----------------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the complete history and comments of an invoice.
         /// </summary>
@@ -490,7 +490,7 @@ namespace zohobooks.api
         /// <returns>List of Comment objects</returns>
         public CommentList GetComments(string invoice_id)
         {
-            string url = baseAddress + "/" + invoice_id + "/comments";;
+            string url = baseAddress + "/" + invoice_id + "/comments"; ;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return CreditNoteParser.getCommentList(responce);
         }
@@ -520,7 +520,7 @@ namespace zohobooks.api
         /// <returns>Comment object.</returns>
         public Comment UpdateComment(string invoice_id, string comment_id, Comment update_info)
         {
-            string url = baseAddress + "/" + invoice_id + "/comments/"+comment_id;
+            string url = baseAddress + "/" + invoice_id + "/comments/" + comment_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -536,11 +536,11 @@ namespace zohobooks.api
         /// <returns>System.String<br></br> The success message is "The comment has been deleted." </returns>
         public string DeleteComment(string invoice_id, string comment_id)
         {
-            string url = baseAddress + "/" + invoice_id + "/comments/"+comment_id;
+            string url = baseAddress + "/" + invoice_id + "/comments/" + comment_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return InvoiceParser.getMessage(responce);
         }
-//--------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the file attached to the invoice.
         /// </summary>
@@ -568,7 +568,7 @@ namespace zohobooks.api
             string url = baseAddress + "/" + invoice_id + "/attachment";
             var attachment = new string[] { attachment_Path };
             var file = new KeyValuePair<string, string[]>("attachment", attachment);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(parameters),null, file);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(parameters), null, file);
             return InvoiceParser.getMessage(responce);
         }
 

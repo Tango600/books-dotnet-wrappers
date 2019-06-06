@@ -26,10 +26,13 @@ namespace zohobooks.api
     /// Update or delete the chart of account,<br></br>
     /// Delete the specified transaction of the account.<br></br>
     /// </summary>
-    public class ChartOfAccountsApi:Api
+    public class ChartOfAccountsApi : Api
     {
-        
-        static string baseAddress =baseurl + "/chartofaccounts";
+        private string getBaseAddress()
+        {
+            return baseurl + "/chartofaccounts";
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChartOfAccountsApi" /> class.
         /// </summary>
@@ -54,7 +57,7 @@ namespace zohobooks.api
         /// <returns>ChartofaccountList object.</returns>
         public ChartOfAccountList GetChartOfAcounts(Dictionary<object, object> parameters)
         {
-            string url = baseAddress;
+            string url = getBaseAddress();
             var responce = ZohoHttpClient.get(url, getQueryParameters(parameters));
             return ChartofaccountParser.getChartOfAccountList(responce);
         }
@@ -65,7 +68,7 @@ namespace zohobooks.api
         /// <returns>ChartOfAccount object.</returns>
         public ChartOfAccount Get(string account_id)
         {
-            string url = baseAddress + "/" + account_id;
+            string url = getBaseAddress() + "/" + account_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return ChartofaccountParser.getChartOfAccount(responce);
         }
@@ -77,7 +80,7 @@ namespace zohobooks.api
         /// <returns>ChartOfAccount object.</returns>
         public ChartOfAccount Create(ChartOfAccount new_account_info)
         {
-            string url = baseAddress;
+            string url = getBaseAddress();
             var json = JsonConvert.SerializeObject(new_account_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -93,7 +96,7 @@ namespace zohobooks.api
         /// <returns>ChartOfAccount object.</returns>
         public ChartOfAccount Update(string account_id, ChartOfAccount update_info)
         {
-            string url = baseAddress + "/" + account_id;
+            string url = getBaseAddress() + "/" + account_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -108,7 +111,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The account has been deleted."</returns>
         public string Delete(string account_id)
         {
-            string url = baseAddress + "/" +account_id;
+            string url = getBaseAddress() + "/" + account_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ChartofaccountParser.getMessage(responce);
         }
@@ -120,7 +123,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The account has been marked as active."</returns>
         public string MarkAsActive(string account_id)
         {
-            string url = baseAddress + "/" + account_id + "/active";
+            string url = getBaseAddress() + "/" + account_id + "/active";
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return ChartofaccountParser.getMessage(responce);
         }
@@ -132,7 +135,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The account has been marked as inactive."</returns>
         public string MarkAsInactive(string account_id)
         {
-            string url = baseAddress + "/" + account_id + "/inactive";
+            string url = getBaseAddress() + "/" + account_id + "/inactive";
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return ChartofaccountParser.getMessage(responce);
         }
@@ -153,7 +156,7 @@ namespace zohobooks.api
         /// <returns>TransactionList object.</returns>
         public TransactionList GetTransactions(Dictionary<object, object> parameters)
         {
-            string url = baseAddress + "/transactions";
+            string url = getBaseAddress() + "/transactions";
             var responce = ZohoHttpClient.get(url, getQueryParameters(parameters));
             Console.WriteLine(responce.Content.ReadAsStringAsync().Result);
             return ChartofaccountParser.getTransactionList(responce);
@@ -166,7 +169,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The transaction has been deleted."</returns>
         public string DeleteATransaction(string transaction_id)
         {
-            string url = baseAddress + "/transactions/" +transaction_id;
+            string url = getBaseAddress() + "/transactions/" + transaction_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             Console.WriteLine(responce.Content.ReadAsStringAsync().Result);
             return ChartofaccountParser.getMessage(responce);

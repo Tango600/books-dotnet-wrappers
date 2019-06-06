@@ -22,12 +22,13 @@ namespace zohobooks.api
     /// Update the details of invoice,estimate and creditnote settings and their notes and terms,<br></br>
     /// delete the existing currency,exchange rate, tax, tax group, opening balence.<br></br>
     /// </summary>
-    public class SettingsApi:Api
+    public class SettingsApi : Api
     {
         /// <summary>
         /// The base address
         /// </summary>
-        static string baseAddress = baseurl + "/settings";
+        string baseAddress { get => baseurl + "/settings"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsApi" /> class.
         /// </summary>
@@ -47,7 +48,7 @@ namespace zohobooks.api
         {
             string url = baseAddress + "/preferences";
             var response = ZohoHttpClient.get(url, getQueryParameters());
-            
+
             return SettingsParser.getPreferences(response);
         }
 
@@ -88,7 +89,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "You have successfully deleted the unit."</returns>
         public string DeleteUnit(string unit_id)
         {
-            string url = baseAddress + "/units/"+unit_id;
+            string url = baseAddress + "/units/" + unit_id;
             var response = ZohoHttpClient.delete(url, getQueryParameters());
             return SettingsParser.getMessage(response);
         }
@@ -409,7 +410,7 @@ namespace zohobooks.api
         /// <returns>TaxesList object.</returns>
         public TaxList GetTaxes()
         {
-            string url = baseAddress+"/taxes";
+            string url = baseAddress + "/taxes";
             var response = ZohoHttpClient.get(url, getQueryParameters());
             return SettingsParser.getTaxList(response);
         }
@@ -421,7 +422,7 @@ namespace zohobooks.api
         /// <returns>Tax object.</returns>
         public Tax GetTax(string tax_id)
         {
-            string url = baseAddress+"/taxes/"+tax_id;
+            string url = baseAddress + "/taxes/" + tax_id;
             var response = ZohoHttpClient.get(url, getQueryParameters());
             return SettingsParser.getTax(response);
         }
@@ -447,9 +448,9 @@ namespace zohobooks.api
         /// <param name="tax_id">The tax_id is the identifier of the tax.</param>
         /// <param name="update_info">The update_info is the Tax object which contains the updation information.</param>
         /// <returns>Tax.</returns>
-        public Tax UpdateTax(string tax_id,Tax update_info)
+        public Tax UpdateTax(string tax_id, Tax update_info)
         {
-            string url = baseAddress + "/taxes/"+tax_id;
+            string url = baseAddress + "/taxes/" + tax_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -502,9 +503,9 @@ namespace zohobooks.api
         /// <param name="tax_group_id">The tax_group_id is the identifier of the tax group.</param>
         /// <param name="update_info">The update_info is the TaxGroup .</param>
         /// <returns>System.String.<br></br>The success message is "Tax Group information has been saved."</returns>
-        public TaxGroup UpdateTaxGroup(string tax_group_id,TaxGroupToCreate update_info)
+        public TaxGroup UpdateTaxGroup(string tax_group_id, TaxGroupToCreate update_info)
         {
-            string url = baseAddress + "/taxgroups/"+tax_group_id;
+            string url = baseAddress + "/taxgroups/" + tax_group_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -553,7 +554,7 @@ namespace zohobooks.api
         /// <param name="tax_authority_id">The tax_authority_id.</param>
         /// <param name="update_tax_authoriry_info">The update_tax_authoriry_info.</param>
         /// <returns>TaxAuthority.</returns>
-        public TaxAuthority UpdateTaxAuthority(string tax_authority_id,TaxAuthority update_tax_authoriry_info)
+        public TaxAuthority UpdateTaxAuthority(string tax_authority_id, TaxAuthority update_tax_authoriry_info)
         {
             string url = baseAddress + "/taxauthorities/" + tax_authority_id;
             var json = JsonConvert.SerializeObject(update_tax_authoriry_info);
@@ -604,7 +605,7 @@ namespace zohobooks.api
         /// <param name="tax_exemption_id">The tax_exemption_id.</param>
         /// <param name="update_info">The update_info.</param>
         /// <returns>TaxExemption.</returns>
-        public TaxExemption UpdateTaxExemption(string tax_exemption_id,TaxExemption update_info)
+        public TaxExemption UpdateTaxExemption(string tax_exemption_id, TaxExemption update_info)
         {
             string url = baseAddress + "/taxexemptions/" + tax_exemption_id;
             var json = JsonConvert.SerializeObject(update_info);
@@ -702,7 +703,7 @@ namespace zohobooks.api
         /// <returns>AutoReminderAndPlaceHolders object.</returns>
         public AutoReminderAndPlaceHolders GetAnAutoPaymentReminder(string template_id)
         {
-            string url = baseAddress + "/autoreminders/"+template_id;
+            string url = baseAddress + "/autoreminders/" + template_id;
             var response = ZohoHttpClient.get(url, getQueryParameters());
             return SettingsParser.getAutoReminderAndPlaceHolders(response);
         }
@@ -714,7 +715,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "Payment reminder has been enabled."</returns>
         public string EnableAutoReminder(string reminder_id)
         {
-            string url = baseAddress + "/autoreminders/" + reminder_id+"/enable";
+            string url = baseAddress + "/autoreminders/" + reminder_id + "/enable";
             var response = ZohoHttpClient.post(url, getQueryParameters());
             return SettingsParser.getMessage(response);
         }
@@ -737,9 +738,9 @@ namespace zohobooks.api
         /// <param name="reminder_id">The reminder_id is the identifier of the auto reminder.</param>
         /// <param name="update_info">The update_info is the AutoReminder object which contains the updation details.</param>
         /// <returns>System.String.<br></br>The success message is "Your payment reminder preferences have been saved."</returns>
-        public AutoReminder UpdateAnAutoReminder(string reminder_id,AutoReminder update_info)
+        public AutoReminder UpdateAnAutoReminder(string reminder_id, AutoReminder update_info)
         {
-            string url = baseAddress + "/autoreminders/" + reminder_id ;
+            string url = baseAddress + "/autoreminders/" + reminder_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -753,7 +754,7 @@ namespace zohobooks.api
         /// <param name="parameters">The parameters is the dictionary object which contains the following filter in the form of key,value pair.<br></br>
         /// <table><tr><td>type</td><td>Type to select between open or overdue reminder.<br></br>Allowed Values: <i>overdue_reminder</i> and <i>open_reminder</i></td></tr></table></param>
         /// <returns>List of Manualreminder object.</returns>
-        public ManualReminderList GetManualReminders(Dictionary<object,object> parameters)
+        public ManualReminderList GetManualReminders(Dictionary<object, object> parameters)
         {
             string url = baseAddress + "/manualreminders";
             var response = ZohoHttpClient.get(url, getQueryParameters(parameters));
@@ -767,7 +768,7 @@ namespace zohobooks.api
         /// <returns>ManualReminderAndPlaceHolders object.</returns>
         public ManualReminderAndPlaceHolders GetManualReminder(string reminder_id)
         {
-            string url = baseAddress + "/manualreminders/"+reminder_id;
+            string url = baseAddress + "/manualreminders/" + reminder_id;
             var response = ZohoHttpClient.get(url, getQueryParameters());
             return SettingsParser.getManualReminderAndPlaceHolders(response);
         }
@@ -778,7 +779,7 @@ namespace zohobooks.api
         /// <param name="reminder_id">The reminder_id is the identifier of the existing manual reminder.</param>
         /// <param name="update_info">The update_info is the Manualreminder object which contains the updation information.</param>
         /// <returns>System.String.<br></br>The success message is "Your payment reminder preferences have been saved."</returns>
-        public ManualReminder UpdateManualReminder(string reminder_id,ManualReminder update_info)
+        public ManualReminder UpdateManualReminder(string reminder_id, ManualReminder update_info)
         {
             string url = baseAddress + "/manualreminders/" + reminder_id;
             var json = JsonConvert.SerializeObject(update_info);

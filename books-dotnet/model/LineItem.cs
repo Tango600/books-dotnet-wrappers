@@ -57,11 +57,6 @@ namespace zohobooks.model
         /// <value>The project_id.</value>
         public string project_id { get; set; }
         /// <summary>
-        /// Gets or sets the time_entry_ids.
-        /// </summary>
-        /// <value>The time_entry_ids.</value>
-        public string time_entry_ids { get; set; }
-        /// <summary>
         /// Gets or sets the expense_id.
         /// </summary>
         /// <value>The expense_id.</value>

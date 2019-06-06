@@ -26,10 +26,11 @@ namespace zohobooks.api
     ///     Update the recurring invoice template,<br></br>
     ///     Delete a recurring invoice. <br></br>
     /// </summary>
-    public class RecurringInvoicesApi:Api
+    public class RecurringInvoicesApi : Api
     {
-        
-        static string baseAddress = baseurl + "/recurringinvoices";
+
+        string baseAddress { get => baseurl + "/recurringinvoices"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecurringInvoicesApi" /> class.
         /// </summary>
@@ -133,7 +134,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The recurring invoice has been stopped."</returns>
         public string Stop(string recurring_invoice_id)
         {
-            string url = baseAddress + "/" + recurring_invoice_id+"/status/stop";
+            string url = baseAddress + "/" + recurring_invoice_id + "/status/stop";
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return RecurringInvoiceParser.getMessage(responce);
         }
@@ -158,7 +159,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "Recurring invoice information has been updated."</returns>
         public string UpdateTemplate(string recurring_invoice_id, string template_id)
         {
-            string url = baseAddress + "/" + recurring_invoice_id + "/templates/"+template_id;
+            string url = baseAddress + "/" + recurring_invoice_id + "/templates/" + template_id;
             var responce = ZohoHttpClient.put(url, getQueryParameters());
             return RecurringInvoiceParser.getMessage(responce);
         }

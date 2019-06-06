@@ -4,39 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using zohobooks.api;
+using zohobooks.util;
 
 namespace zohobooks.service
 {
+    public class ZohoCredentials
+    {
+        public string ClientID;
+        public string ClientSecret;
+        public string ServerDomen;
+        public string RefreshToken;
+        public string OrganizationID;
+    }
+
     /// <summary>
     /// Class ZohoBooks is used to provide all api instances for the Zoho Books services.
     /// </summary>
     public class ZohoBooks
     {
         /// <summary>
-        /// The authentication token
+        /// The refresh token token
         /// </summary>
-        string authToken;
+        readonly string refresh_token;
+
         /// <summary>
         /// The organisation identifier
         /// </summary>
-        string organisationId;
-        /// <summary>
-        /// Initialize ZohoBooks using user's authtoken and organization id.
-        /// </summary>
-        /// <param name="auth_token">The auth_token is the user's authtoken.</param>
-        /// <param name="organization_id">The organization_id is the identifier of the organization.</param>
-        public void initialize(string auth_token,string organization_id)
+        readonly string organisationId;
+
+        public ZohoBooks(ZohoCredentials zohoCredentials)
         {
-            this.authToken = auth_token;
-            this.organisationId = organization_id;
+            SessionManager.Sessions.TryAdd(zohoCredentials.RefreshToken, new SessionData
+            {
+                RefreshToken = zohoCredentials.RefreshToken,
+                ClientID = zohoCredentials.ClientID,
+                ClientSecret = zohoCredentials.ClientSecret,
+                OrganizationID = zohoCredentials.OrganizationID,
+                APIdomen = zohoCredentials.ServerDomen
+            });
+
+            this.refresh_token = zohoCredentials.RefreshToken;
+            this.organisationId = zohoCredentials.OrganizationID;
         }
+
         /// <summary>
         /// Gets an instance of invoices API.
         /// </summary>
         /// <returns>InvoicesApi object.</returns>
         public InvoicesApi GetInvoicesApi()
         {
-            var invoicesApi = new InvoicesApi(authToken,organisationId);
+            var invoicesApi = new InvoicesApi(refresh_token, organisationId);
             return invoicesApi;
         }
         /// <summary>
@@ -45,7 +62,7 @@ namespace zohobooks.service
         /// <returns>BankAccountsApi object.</returns>
         public BankAccountsApi GetBankAccountsApi()
         {
-            var bankAccountsApi = new BankAccountsApi(authToken, organisationId);
+            var bankAccountsApi = new BankAccountsApi(refresh_token, organisationId);
             return bankAccountsApi;
         }
         /// <summary>
@@ -54,7 +71,7 @@ namespace zohobooks.service
         /// <returns>BankRulesApi object.</returns>
         public BankRulesApi GetBankRulesApi()
         {
-            var bankrulesApi = new BankRulesApi(authToken, organisationId);
+            var bankrulesApi = new BankRulesApi(refresh_token, organisationId);
             return bankrulesApi;
         }
         /// <summary>
@@ -63,7 +80,7 @@ namespace zohobooks.service
         /// <returns>BankTransactionsApi object.</returns>
         public BankTransactionsApi GetBankTransactionsApi()
         {
-            var bankTransactionsApi = new BankTransactionsApi(authToken, organisationId);
+            var bankTransactionsApi = new BankTransactionsApi(refresh_token, organisationId);
             return bankTransactionsApi;
         }
         /// <summary>
@@ -72,7 +89,7 @@ namespace zohobooks.service
         /// <returns>BaseCurrencyAdjustmentsApi object.</returns>
         public BaseCurrencyAdjustmentsApi GetBaseCurrencyAdjustmentsApi()
         {
-            var baseCurrencyAdjustmentApi = new BaseCurrencyAdjustmentsApi(authToken, organisationId);
+            var baseCurrencyAdjustmentApi = new BaseCurrencyAdjustmentsApi(refresh_token, organisationId);
             return baseCurrencyAdjustmentApi;
         }
         /// <summary>
@@ -81,7 +98,7 @@ namespace zohobooks.service
         /// <returns>BillsApi object.</returns>
         public BillsApi GetBillsApi()
         {
-            var billsApi = new BillsApi(authToken, organisationId);
+            var billsApi = new BillsApi(refresh_token, organisationId);
             return billsApi;
         }
         /// <summary>
@@ -90,7 +107,7 @@ namespace zohobooks.service
         /// <returns>ChartOfAccountsApi object.</returns>
         public ChartOfAccountsApi GetChartOfAccountsApi()
         {
-            var chartOfAccountsApi = new ChartOfAccountsApi(authToken, organisationId);
+            var chartOfAccountsApi = new ChartOfAccountsApi(refresh_token, organisationId);
             return chartOfAccountsApi;
         }
         /// <summary>
@@ -99,7 +116,7 @@ namespace zohobooks.service
         /// <returns>ContactsApi object.</returns>
         public ContactsApi GetContactsApi()
         {
-            var contactsApi = new ContactsApi(authToken, organisationId);
+            var contactsApi = new ContactsApi(refresh_token, organisationId);
             return contactsApi;
         }
         /// <summary>
@@ -108,7 +125,7 @@ namespace zohobooks.service
         /// <returns>CreditNotesApi object.</returns>
         public CreditNotesApi GetCreditNoteApi()
         {
-            var creditNotesApi = new CreditNotesApi(authToken, organisationId);
+            var creditNotesApi = new CreditNotesApi(refresh_token, organisationId);
             return creditNotesApi;
         }
         /// <summary>
@@ -117,7 +134,7 @@ namespace zohobooks.service
         /// <returns>CustomerPaymentsApi object.</returns>
         public CustomerPaymentsApi GetCustomerPaymentsApi()
         {
-            var customerPaymentsApi = new CustomerPaymentsApi(authToken, organisationId);
+            var customerPaymentsApi = new CustomerPaymentsApi(refresh_token, organisationId);
             return customerPaymentsApi;
         }
         /// <summary>
@@ -126,7 +143,7 @@ namespace zohobooks.service
         /// <returns>EstimatesApi object.</returns>
         public EstimatesApi GetEstimatesApi()
         {
-            var estimatesApi = new EstimatesApi(authToken, organisationId);
+            var estimatesApi = new EstimatesApi(refresh_token, organisationId);
             return estimatesApi;
         }
         /// <summary>
@@ -135,7 +152,7 @@ namespace zohobooks.service
         /// <returns>ExpensesApi object.</returns>
         public ExpensesApi GetExpensesApi()
         {
-            var expensesApi = new ExpensesApi(authToken, organisationId);
+            var expensesApi = new ExpensesApi(refresh_token, organisationId);
             return expensesApi;
         }
         /// <summary>
@@ -144,7 +161,7 @@ namespace zohobooks.service
         /// <returns>ItemsApi object.</returns>
         public ItemsApi GetItemsApi()
         {
-            var itemsApi = new ItemsApi(authToken, organisationId);
+            var itemsApi = new ItemsApi(refresh_token, organisationId);
             return itemsApi;
         }
         /// <summary>
@@ -153,7 +170,7 @@ namespace zohobooks.service
         /// <returns>JournalsApi object.</returns>
         public JournalsApi GetJournalsApi()
         {
-            var journalsApi = new JournalsApi(authToken, organisationId);
+            var journalsApi = new JournalsApi(refresh_token, organisationId);
             return journalsApi;
         }
         /// <summary>
@@ -162,7 +179,7 @@ namespace zohobooks.service
         /// <returns>OrganizationsApi object.</returns>
         public OrganizationsApi GetOrganizationsApi()
         {
-            var organizationsApi = new OrganizationsApi(authToken, organisationId);
+            var organizationsApi = new OrganizationsApi(refresh_token, organisationId);
             return organizationsApi;
         }
         /// <summary>
@@ -171,7 +188,7 @@ namespace zohobooks.service
         /// <returns>ProjectsApi object.</returns>
         public ProjectsApi GetProjectsApi()
         {
-            var projectsApi = new ProjectsApi(authToken, organisationId);
+            var projectsApi = new ProjectsApi(refresh_token, organisationId);
             return projectsApi;
         }
         /// <summary>
@@ -180,7 +197,7 @@ namespace zohobooks.service
         /// <returns>RecurringExpensesApi object.</returns>
         public RecurringExpensesApi GetRecurringExpensesApi()
         {
-            var recurringExpensesApi = new RecurringExpensesApi(authToken, organisationId);
+            var recurringExpensesApi = new RecurringExpensesApi(refresh_token, organisationId);
             return recurringExpensesApi;
         }
         /// <summary>
@@ -189,7 +206,7 @@ namespace zohobooks.service
         /// <returns>RecurringInvoicesApi object.</returns>
         public RecurringInvoicesApi GetRecurringInvoicesApi()
         {
-            var recurringInvoicesApi = new RecurringInvoicesApi(authToken, organisationId);
+            var recurringInvoicesApi = new RecurringInvoicesApi(refresh_token, organisationId);
             return recurringInvoicesApi;
         }
         /// <summary>
@@ -198,7 +215,7 @@ namespace zohobooks.service
         /// <returns>SettingsApi object.</returns>
         public SettingsApi GetSettingsApi()
         {
-            var settingsApi = new SettingsApi(authToken, organisationId);
+            var settingsApi = new SettingsApi(refresh_token, organisationId);
             return settingsApi;
         }
         /// <summary>
@@ -207,7 +224,7 @@ namespace zohobooks.service
         /// <returns>UsersApi object.</returns>
         public UsersApi GetUsersApi()
         {
-            var usersApi = new UsersApi(authToken, organisationId);
+            var usersApi = new UsersApi(refresh_token, organisationId);
             return usersApi;
         }
         /// <summary>
@@ -216,7 +233,7 @@ namespace zohobooks.service
         /// <returns>VendorPaymentsApi object.</returns>
         public VendorPaymentsApi GetVendorPaymentsApi()
         {
-            var vendorPaymentsApi = new VendorPaymentsApi(authToken, organisationId);
+            var vendorPaymentsApi = new VendorPaymentsApi(refresh_token, organisationId);
             return vendorPaymentsApi;
         }
         /// <summary>
@@ -225,7 +242,7 @@ namespace zohobooks.service
         /// <returns>SalesordersApi.</returns>
         public SalesordersApi GetSalesordersApi()
         {
-            var salesordersApi = new SalesordersApi(authToken, organisationId);
+            var salesordersApi = new SalesordersApi(refresh_token, organisationId);
             return salesordersApi;
         }
         /// <summary>
@@ -234,7 +251,7 @@ namespace zohobooks.service
         /// <returns>PurchaseordersApi.</returns>
         public PurchaseordersApi GetPurchaseordersApi()
         {
-            var purchaseordersApi = new PurchaseordersApi(authToken, organisationId);
+            var purchaseordersApi = new PurchaseordersApi(refresh_token, organisationId);
             return purchaseordersApi;
         }
 
@@ -244,7 +261,7 @@ namespace zohobooks.service
         /// <returns>VendorCreditsApi.</returns>
         public VendorCreditsApi GetVendorCreditsApi()
         {
-            var vendorCreditsApi = new VendorCreditsApi(authToken, organisationId);
+            var vendorCreditsApi = new VendorCreditsApi(refresh_token, organisationId);
             return vendorCreditsApi;
         }
     }

@@ -21,9 +21,10 @@ namespace zohobooks.api
     /// It is used to:<br></br>Match a transaction.<br></br>Unmatch a matched transaction.<br></br>Exclude a transaction.<br></br>Restore an excluded transaction.<br></br>Categorize an uncategorized transaction.<br></br>	Categorize as credit note refunds.<br></br>Categorize as vendor payment.<br></br>Categorize as customer payment.<br></br>Categorize as expense.<br></br>Uncategorize a categorized transaction.<br></br>
     /// It is used to delete a transaction.
     /// </summary>
-    public class BankTransactionsApi:Api
+    public class BankTransactionsApi : Api
     {
-        static string baseAddress =baseurl + "/banktransactions";
+        string baseAddress { get => baseurl + "/banktransactions"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BankTransactionsApi" /> class.
         /// </summary>
@@ -159,7 +160,7 @@ namespace zohobooks.api
         public string UnmatchTransaction(string transaction_id)
         {
             string url = baseAddress + "/" + transaction_id + "/unmatch";
-            var responce = ZohoHttpClient.post(url, getQueryParameters());;
+            var responce = ZohoHttpClient.post(url, getQueryParameters()); ;
             return BankTransactionParser.getMessage(responce);
         }
 
@@ -272,7 +273,7 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var attachment = new string[] { receipt_path };
-            var file = new KeyValuePair<string, string[]>("receipt",attachment);
+            var file = new KeyValuePair<string, string[]>("receipt", attachment);
             var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, file);
             return BankTransactionParser.getMessage(responce);
         }
@@ -288,7 +289,7 @@ namespace zohobooks.api
             return BankTransactionParser.getMessage(responce);
         }
 
-        public string CategorizeAsVendorCreditRefund(string transaction_id,VendorCreditRefund refund_details)
+        public string CategorizeAsVendorCreditRefund(string transaction_id, VendorCreditRefund refund_details)
         {
             string url = baseAddress + "/uncategorized/" + transaction_id + "/categorize/vendorcreditrefunds";
             var json = JsonConvert.SerializeObject(refund_details);

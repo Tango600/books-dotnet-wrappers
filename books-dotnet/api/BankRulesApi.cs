@@ -16,9 +16,10 @@ namespace zohobooks.api
     /// This Api is used to get <br>The bank rules list</br><br>The details of the specified Rule</br>
     /// It is used to either update or delete the specified Bank Rule
     /// </summary>
-    public class BankRulesApi:Api
+    public class BankRulesApi : Api
     {
-        static string baseAddress =baseurl + "/bankaccounts/rules";
+        string baseAddress { get => baseurl + "/bankaccounts/rules"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BankRulesApi" /> class.
         /// </summary>
@@ -27,7 +28,7 @@ namespace zohobooks.api
         public BankRulesApi(string auth_token, string organization_Id)
             : base(auth_token, organization_Id)
         {
-            
+
         }
         /// <summary>
         /// Fetch all the rules created for a specified bank or credit card account.

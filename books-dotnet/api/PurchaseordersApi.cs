@@ -13,12 +13,13 @@ namespace zohobooks.api
     /// <summary>
     /// Class PurchaseordersApi.
     /// </summary>
-    public class PurchaseordersApi:Api
+    public class PurchaseordersApi : Api
     {
         /// <summary>
         /// The base address
         /// </summary>
-        static string baseAddress = baseurl + "/purchaseorders";
+        string baseAddress { get => baseurl + "/purchaseorders"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PurchaseordersApi" /> class.
         /// </summary>
@@ -35,11 +36,11 @@ namespace zohobooks.api
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         /// <returns>PurchaseorderList.</returns>
-        public PurchaseorderList GetPurchaseorders(Dictionary<object,object> parameters)
+        public PurchaseorderList GetPurchaseorders(Dictionary<object, object> parameters)
         {
             var url = baseAddress;
             var response = ZohoHttpClient.get(url, getQueryParameters(parameters));
-            return PurchaseorderParser.getPurchaseorderList(response);   
+            return PurchaseorderParser.getPurchaseorderList(response);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace zohobooks.api
         /// <param name="purchaseorder_id">The purchaseorder_id.</param>
         /// <param name="parameters">The parameters.</param>
         /// <returns>Purchaseorder.</returns>
-        public Purchaseorder Get(string purchaseorder_id,Dictionary<object,object> parameters)
+        public Purchaseorder Get(string purchaseorder_id, Dictionary<object, object> parameters)
         {
             var url = baseAddress + "/" + purchaseorder_id;
             var response = ZohoHttpClient.get(url, getQueryParameters(parameters));
@@ -70,7 +71,7 @@ namespace zohobooks.api
             parameters.Add("JSONString", json);
             var attachment = new string[] { attachment_Path };
             var file = new KeyValuePair<string, string[]>("attachment", attachment);
-            var response = ZohoHttpClient.post(url, getQueryParameters(),parameters,file);
+            var response = ZohoHttpClient.post(url, getQueryParameters(), parameters, file);
             return PurchaseorderParser.getPurchaseorder(response);
         }
 
@@ -81,7 +82,7 @@ namespace zohobooks.api
         /// <param name="update_info">The update_info.</param>
         /// <param name="parameters">The parameters.</param>
         /// <returns>Purchaseorder.</returns>
-        public Purchaseorder Update(string purchseorder_id,Purchaseorder update_info,Dictionary<object,object> parameters,string attachment_path)
+        public Purchaseorder Update(string purchseorder_id, Purchaseorder update_info, Dictionary<object, object> parameters, string attachment_path)
         {
             var url = baseAddress + "/" + purchseorder_id;
             var json = JsonConvert.SerializeObject(update_info);
@@ -89,7 +90,7 @@ namespace zohobooks.api
                 parameters = new Dictionary<object, object>();
             parameters.Add("JSONString", json);
             var file = new KeyValuePair<string, string>("attachment", attachment_path);
-            var response = ZohoHttpClient.put(url,getQueryParameters(),parameters,file);
+            var response = ZohoHttpClient.put(url, getQueryParameters(), parameters, file);
             return PurchaseorderParser.getPurchaseorder(response);
         }
 
@@ -148,7 +149,7 @@ namespace zohobooks.api
         /// <param name="email_details">The email_details.</param>
         /// <param name="parameters">The parameters.</param>
         /// <returns>System.String.</returns>
-        public string SendEmail(string purchaseorder_id,EmailNotification email_details,Dictionary<object,object> parameters)
+        public string SendEmail(string purchaseorder_id, EmailNotification email_details, Dictionary<object, object> parameters)
         {
             var url = baseAddress + "/" + purchaseorder_id + "/email";
             var json = JsonConvert.SerializeObject(email_details);
@@ -178,7 +179,7 @@ namespace zohobooks.api
         /// <param name="purchaseorder_id">The purchaseorder_id.</param>
         /// <param name="update_info">The update_info.</param>
         /// <returns>Address.</returns>
-        public Address UpdateBillingAddress(string purchaseorder_id,Address update_info)
+        public Address UpdateBillingAddress(string purchaseorder_id, Address update_info)
         {
             string url = baseAddress + "/" + purchaseorder_id + "/address/billing";
             var json = JsonConvert.SerializeObject(update_info);
@@ -212,7 +213,7 @@ namespace zohobooks.api
             return PurchaseorderParser.getMessage(response);
         }
 
-//----------------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Gets the attachment.
@@ -288,7 +289,7 @@ namespace zohobooks.api
         /// <param name="purchaseorder_id">The purchaseorder_id.</param>
         /// <param name="new_comment_info">The new_comment_info.</param>
         /// <returns>Comment.</returns>
-        public Comment AddComment(string purchaseorder_id,Comment new_comment_info)
+        public Comment AddComment(string purchaseorder_id, Comment new_comment_info)
         {
             string url = baseAddress + "/" + purchaseorder_id + "/comments";
             var json = JsonConvert.SerializeObject(new_comment_info);

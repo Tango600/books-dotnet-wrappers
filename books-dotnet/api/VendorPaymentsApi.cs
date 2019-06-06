@@ -18,9 +18,10 @@ namespace zohobooks.api
     ///     Get the details of the specified vendor payment,<br></br>
     ///     Update or delete the specified vendor payment.<br></br>
     /// </summary>
-    public class VendorPaymentsApi:Api
+    public class VendorPaymentsApi : Api
     {
-        static string baseAddress = baseurl + "/vendorpayments";
+        string baseAddress { get => baseurl + "/vendorpayments"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VendorPaymentsApi" /> class.
         /// </summary>

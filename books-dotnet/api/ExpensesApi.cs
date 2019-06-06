@@ -24,9 +24,10 @@ namespace zohobooks.api
     ///     Add the reciept to the expense,<br></br>
     ///     Delete the specified expense or receipt.<br></br>
     /// </summary>
-    public class ExpensesApi:Api
+    public class ExpensesApi : Api
     {
-        static string baseAddress =baseurl + "/expenses";
+        string baseAddress { get => baseurl + "/expenses"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpensesApi" /> class.
         /// </summary>
@@ -75,7 +76,7 @@ namespace zohobooks.api
         /// <returns>Expense object.</returns>
         public Expense Get(string expense_id)
         {
-            string url = baseAddress+"/"+expense_id;
+            string url = baseAddress + "/" + expense_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return ExpenseParser.getExpense(responce);
         }
@@ -93,8 +94,8 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var attachments = new string[] { receipt_path };
-            var file = new KeyValuePair<string,string[] >("receipt", attachments);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),jsonstring,file);
+            var file = new KeyValuePair<string, string[]>("receipt", attachments);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, file);
             return ExpenseParser.getExpense(responce);
         }
 
@@ -107,13 +108,13 @@ namespace zohobooks.api
         /// <returns>Expense object.</returns>
         public Expense Update(string expense_id, Expense update_info, string receipt_path)
         {
-            string url = baseAddress+"/"+expense_id;
-            
+            string url = baseAddress + "/" + expense_id;
+
             var file = new KeyValuePair<string, string>("receipt", receipt_path);
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
-            var responce = ZohoHttpClient.put(url, getQueryParameters(), jsonstring,file);
+            var responce = ZohoHttpClient.put(url, getQueryParameters(), jsonstring, file);
             return ExpenseParser.getExpense(responce);
         }
 
@@ -124,7 +125,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The expense has been deleted."</returns>
         public string Delete(string expense_id)
         {
-            string url = baseAddress + "/" +expense_id;
+            string url = baseAddress + "/" + expense_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ExpenseParser.getMessage(responce);
         }
@@ -136,11 +137,11 @@ namespace zohobooks.api
         /// <returns>List of Comment object.</returns>
         public CommentList GetComments(string expense_id)
         {
-            string url = baseAddress + "/" + expense_id + "/comments";;
+            string url = baseAddress + "/" + expense_id + "/comments"; ;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return CreditNoteParser.getCommentList(responce);
         }
-//---------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------
         /// <summary>
         /// Returns the receipt attached to the expense.
         /// </summary>
@@ -165,7 +166,7 @@ namespace zohobooks.api
             string url = baseAddress + "/" + expense_id + "/receipt";
             var attachments = new string[] { receipt_path };
             var file = new KeyValuePair<string, string[]>("receipt", attachments);
-            var responce = ZohoHttpClient.post(url,getQueryParameters(),null,file);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), null, file);
             return ExpenseParser.getMessage(responce);
         }
 

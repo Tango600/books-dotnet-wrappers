@@ -22,22 +22,18 @@ namespace zohobooks.api
     /// It is used to change the status of an account as active to inactive and vice versa.
     /// It is used to update or delete the bank account.
     /// </summary>
-    public class BankAccountsApi:Api
+    public class BankAccountsApi : Api
     {
-        /// <summary>
-        /// The base address
-        /// </summary>
-        static string baseAddress =baseurl + "/bankaccounts";
-
+        string baseAddress { get => baseurl + "/bankaccounts"; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BankAccountsApi" /> class.
         /// </summary>
         /// <param name="auth_token">The user's auth_token is used for the authentication purpose.</param>
         /// <param name="organization_Id">The organization_ identifier is used to define the current working organisation.</param>
-        public BankAccountsApi(string auth_token, string organization_Id): base(auth_token, organization_Id)
+        public BankAccountsApi(string auth_token, string organization_Id) : base(auth_token, organization_Id)
         {
-           
+
         }
         /// <summary>
         /// Gets the bank accounts.
@@ -61,7 +57,7 @@ namespace zohobooks.api
             string url = baseAddress + "/" + account_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return BankAccountParser.getBankAccount(responce);
-            
+
         }
 
         /// <summary>
@@ -150,7 +146,7 @@ namespace zohobooks.api
         /// <returns>System.String.</returns>
         public string DeleteLastImportedStatement(string account_id, string statement_id)
         {
-            string url = baseAddress + "/" + account_id + "/statement/"+statement_id;
+            string url = baseAddress + "/" + account_id + "/statement/" + statement_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return BankAccountParser.getMessage(responce);
         }

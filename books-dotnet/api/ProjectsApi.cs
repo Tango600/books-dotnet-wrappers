@@ -28,9 +28,10 @@ namespace zohobooks.api
     ///     Update the details of the project,task,user or time entry,<br></br>
     ///     Delete the specified project,task,user or time entry.
     /// </summary>
-    public class ProjectsApi:Api
+    public class ProjectsApi : Api
     {
-        static string baseAddress = baseurl + "/projects";
+        string baseAddress { get => baseurl + "/projects"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectsApi" /> class.
         /// </summary>
@@ -65,7 +66,7 @@ namespace zohobooks.api
         /// <returns>Project object.</returns>
         public Project Get(string project_id)
         {
-            string url = baseAddress+"/"+project_id;
+            string url = baseAddress + "/" + project_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return ProjectParser.getProject(responce);
         }
@@ -146,7 +147,7 @@ namespace zohobooks.api
             var responce = ZohoHttpClient.post(url, getQueryParameters(jsonstring));
             return ProjectParser.getProject(responce);
         }
-//--------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------
 
         /// <summary>
         /// Get list of tasks added to a project.
@@ -173,7 +174,7 @@ namespace zohobooks.api
         /// <returns>ProjectTask object.</returns>
         public ProjectTask GetATask(string project_id, string task_id)
         {
-            string url = baseAddress + "/" + project_id + "/tasks/"+task_id;
+            string url = baseAddress + "/" + project_id + "/tasks/" + task_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return ProjectParser.gettask(responce);
         }
@@ -203,7 +204,7 @@ namespace zohobooks.api
         /// <returns>ProjectTask object.</returns>
         public ProjectTask UpdateTask(string project_id, string task_id, ProjectTask update_info)
         {
-            string url = baseAddress + "/" + project_id + "/tasks/"+task_id;
+            string url = baseAddress + "/" + project_id + "/tasks/" + task_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -218,11 +219,11 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The task has been deleted."</returns>
         public string DeleteTask(string project_id, string task_id)
         {
-            string url = baseAddress + "/" + project_id + "/tasks/"+task_id;
+            string url = baseAddress + "/" + project_id + "/tasks/" + task_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ProjectParser.getMessage(responce);
         }
-//------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get list of user associated with a project.
         /// </summary>
@@ -304,7 +305,7 @@ namespace zohobooks.api
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ProjectParser.getMessage(responce);
         }
-//------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------
         /// <summary>
         /// List all time entries with pagination.
         /// </summary>
@@ -332,7 +333,7 @@ namespace zohobooks.api
         /// <returns>TimeEntry object.</returns>
         public TimeEntry GetATimeEntry(string time_entry_id)
         {
-            string url = baseAddress + "/timeentries/"+time_entry_id;
+            string url = baseAddress + "/timeentries/" + time_entry_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return ProjectParser.getTimeEntry(responce);
         }
@@ -358,7 +359,7 @@ namespace zohobooks.api
         /// <returns>TimeEntry object.</returns>
         public TimeEntry UpdateTimeEntry(string time_entry_id, TimeEntry update_info)
         {
-            string url = baseAddress + "/timeentries/"+time_entry_id;
+            string url = baseAddress + "/timeentries/" + time_entry_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -372,7 +373,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The time entry has been deleted" </returns>
         public string DeleteTimeEntry(string time_entry_id)
         {
-            string url = baseAddress + "/timeentries/"+time_entry_id;
+            string url = baseAddress + "/timeentries/" + time_entry_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ProjectParser.getMessage(responce);
         }
@@ -420,7 +421,7 @@ namespace zohobooks.api
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return ProjectParser.getTimeEntry(responce);
         }
- //------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get comments for a project.
         /// </summary>
@@ -455,11 +456,11 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The comment has been deleted."</returns>
         public string DeleteComment(string project_id, string comment_id)
         {
-            string url = baseAddress + "/" + project_id + "/comments/"+comment_id;
+            string url = baseAddress + "/" + project_id + "/comments/" + comment_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return ProjectParser.getMessage(responce);
         }
-//------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Lists invoices created for this project.
         /// </summary>

@@ -21,9 +21,10 @@ namespace zohobooks.api
     ///     Get the list of payments or details of the specified payment made by the customer.<br></br>
     ///     Update or delete an existing payment.
     /// </summary>
-    public class CustomerPaymentsApi:Api
+    public class CustomerPaymentsApi : Api
     {
-        static string baseAddress =baseurl + "/customerpayments";
+        string baseAddress { get => baseurl + "/customerpayments"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerPaymentsApi" /> class.
         /// </summary>
@@ -57,7 +58,7 @@ namespace zohobooks.api
         public CustomerPaymentList GetCustomerPayments(Dictionary<object, object> parameters)
         {
             string address = baseAddress;
-            var responce =ZohoHttpClient.get(address,getQueryParameters(parameters));
+            var responce = ZohoHttpClient.get(address, getQueryParameters(parameters));
             return CustomerPaymentParser.getPaymentList(responce);
         }
 
@@ -68,7 +69,7 @@ namespace zohobooks.api
         /// <returns>Customerpayment object.</returns>
         public CustomerPayment Get(string payment_id)
         {
-            string address = baseAddress+"/"+payment_id;
+            string address = baseAddress + "/" + payment_id;
             var responce = ZohoHttpClient.get(address, getQueryParameters());
             return CustomerPaymentParser.getPayment(responce);
         }
@@ -80,7 +81,7 @@ namespace zohobooks.api
         /// <returns>Customerpayment object.</returns>
         public CustomerPayment Create(CustomerPayment new_customer_payment_info)
         {
-            string address = baseAddress ;
+            string address = baseAddress;
             var json = JsonConvert.SerializeObject(new_customer_payment_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -96,7 +97,7 @@ namespace zohobooks.api
         /// <returns>Customerpayment object.</returns>
         public CustomerPayment Update(string payment_id, CustomerPayment update_info)
         {
-            string address = baseAddress+"/"+payment_id;
+            string address = baseAddress + "/" + payment_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);

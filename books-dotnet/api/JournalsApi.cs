@@ -17,9 +17,10 @@ namespace zohobooks.api
     ///     Update the details of the journal,<br></br>
     ///     Delete the specified journal.<br></br>
     /// </summary>
-    public class JournalsApi:Api
+    public class JournalsApi : Api
     {
-        static string baseAddress = baseurl + "/journals";
+        string baseAddress { get => baseurl + "/journals"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="JournalsApi" /> class.
         /// </summary>
@@ -60,7 +61,7 @@ namespace zohobooks.api
         /// <returns>Journal object.</returns>
         public Journal Get(string journal_id)
         {
-            string url = baseAddress+"/"+journal_id;
+            string url = baseAddress + "/" + journal_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return JournalParser.getJournal(responce);
         }

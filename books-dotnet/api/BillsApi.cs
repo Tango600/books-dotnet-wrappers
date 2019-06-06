@@ -30,9 +30,10 @@ namespace zohobooks.api
     /// Update the billing and shipping addresses of the bill.<br></br>
     /// Delete the specified bill,payment or bill comment.<br></br>
     /// </summary>
-    public class BillsApi:Api
+    public class BillsApi : Api
     {
-        static string baseAddress =baseurl + "/bills";
+        string baseAddress { get => baseurl + "/bills"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BillsApi" /> class.
         /// </summary>
@@ -87,15 +88,24 @@ namespace zohobooks.api
         /// <param name="new_bill_info">The new_bill_info is the bill object which contains the vendor_id,account_id and bill_number as mandatory parameters.</param>
         /// <param name="attachment_path">The attachment_path is the receipt file to the bill.</param>
         /// <returns>Bill object.</returns>
-        public Bill Create(Bill new_bill_info, string attachment_path)
+        public Bill Create(Bill new_bill_info, string attachment_path = "")
         {
             string url = baseAddress;
             var json = JsonConvert.SerializeObject(new_bill_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
-            var attachments = new string[] { attachment_path };
-            var file = new KeyValuePair<string, string[]>("attachment", attachments);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),jsonstring,file);
+
+            KeyValuePair<string, string[]> file;
+            if (attachment_path != "")
+            {
+                var attachments = new string[] { attachment_path };
+                file = new KeyValuePair<string, string[]>("attachment", attachments);
+            }
+            else
+            {
+                file = new KeyValuePair<string, string[]>();
+            }
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, file);
             return BillParser.getBill(responce);
         }
         /// <summary>
@@ -112,7 +122,7 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var file = new KeyValuePair<string, string>("attachment", attachment_path);
-            var responce = ZohoHttpClient.put(url, getQueryParameters(),jsonstring ,file);
+            var responce = ZohoHttpClient.put(url, getQueryParameters(), jsonstring, file);
             return BillParser.getBill(responce);
         }
 
@@ -217,7 +227,7 @@ namespace zohobooks.api
             string url = baseAddress + "/" + bill_id + "/attachment";
             ZohoHttpClient.getFile(url, getQueryParameters(parameters));
             return "the selected expense receipt is saved in current directory";
-            
+
         }
 
         /// <summary>
@@ -230,8 +240,8 @@ namespace zohobooks.api
         {
             string url = baseAddress + "/" + bill_id + "/attachment";
             var attachment = new string[] { attachment_path };
-            var file = new KeyValuePair<string, string[]>("attachment",attachment);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),null ,file);
+            var file = new KeyValuePair<string, string[]>("attachment", attachment);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), null, file);
             return BillParser.getMessage(responce);
         }
 

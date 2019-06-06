@@ -28,9 +28,10 @@ namespace zohobooks.api
     ///     List of comments and refund history of a contact,<br></br>
     ///     Delete the contact.<br></br>
     /// </summary>
-    public class ContactsApi:Api
+    public class ContactsApi : Api
     {
-        static string baseAddress =baseurl + "/contacts";
+        string baseAddress { get => baseurl + "/contacts"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactsApi" /> class.
         /// </summary>
@@ -74,7 +75,7 @@ namespace zohobooks.api
         /// <returns>Contact object.</returns>
         public Contact Get(string contact_id)
         {
-            string url = baseAddress+"/"+contact_id;
+            string url = baseAddress + "/" + contact_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             Console.WriteLine(responce.Content.ReadAsStringAsync().Result);
             return ContactParser.getContact(responce);
@@ -92,7 +93,7 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var responce = ZohoHttpClient.post(url, getQueryParameters(jsonstring));
-            return ContactParser.getContact(responce); 
+            return ContactParser.getContact(responce);
         }
 
         /// <summary>
@@ -192,7 +193,7 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var files = new KeyValuePair<string, string[]>("attachments", attachment_paths);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),jsonstring,files);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, files);
             return ContactParser.getMessage(responce);
         }
 
@@ -229,7 +230,7 @@ namespace zohobooks.api
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
             var files = new KeyValuePair<string, string[]>("attachments", attachment_paths);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),jsonstring, files);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, files);
             return ContactParser.getMessage(responce);
         }
 
@@ -280,7 +281,7 @@ namespace zohobooks.api
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return ContactParser.getMessage(responce);
         }
-//--------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------
         /// <summary>
         /// List contact persons of a contact with pagination.
         /// </summary>
@@ -298,9 +299,9 @@ namespace zohobooks.api
         /// </summary>
         /// <param name="contact_person_id">The contact_person_id is the identifier of the contact person.</param>
         /// <returns>ContactPerson object.</returns>
-        public ContactPerson GetContactPerson(string contact_id,string contact_person_id)
+        public ContactPerson GetContactPerson(string contact_id, string contact_person_id)
         {
-            string url = baseAddress +"/"+contact_id+"/contactpersons/"+contact_person_id;
+            string url = baseAddress + "/" + contact_id + "/contactpersons/" + contact_person_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             Console.WriteLine(responce.Content.ReadAsStringAsync().Result);
             return ContactParser.getContactPerson(responce);
@@ -360,7 +361,5 @@ namespace zohobooks.api
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return ContactParser.getMessage(responce);
         }
-
-        
-    }   
+    }
 }

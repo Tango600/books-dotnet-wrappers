@@ -21,9 +21,10 @@ namespace zohobooks.api
     ///     Change the status of the user to active or inactive,<br></br>
     ///     Delete the specified user from the organization.<br></br>
     /// </summary>
-    public class UsersApi:Api
+    public class UsersApi : Api
     {
-        static string baseAddress = baseurl + "/users";
+        string baseAddress { get => baseurl + "/users"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersApi"/> class.
         /// </summary>
@@ -82,11 +83,11 @@ namespace zohobooks.api
         /// <returns>User object.</returns>
         public User Create(User user_info)
         {
-            string url = baseAddress ;
+            string url = baseAddress;
             var json = JsonConvert.SerializeObject(user_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
-            var response=ZohoHttpClient.post(url,getQueryParameters(jsonstring));
+            var response = ZohoHttpClient.post(url, getQueryParameters(jsonstring));
             return ProjectParser.getUser(response);
         }
 
@@ -96,9 +97,9 @@ namespace zohobooks.api
         /// <param name="user_id">The user_id is the identifier of the user.</param>
         /// <param name="update_info">The update_info is the User obect which contains the updation information.</param>
         /// <returns>User object.</returns>
-        public User Update(string user_id,User update_info)
+        public User Update(string user_id, User update_info)
         {
-            string url = baseAddress+"/"+user_id;
+            string url = baseAddress + "/" + user_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);

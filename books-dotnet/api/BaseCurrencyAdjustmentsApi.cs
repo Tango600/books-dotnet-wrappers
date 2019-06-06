@@ -17,9 +17,10 @@ namespace zohobooks.api
     /// To get the list of all account details for the base currency adjustment.<br></br>
     /// To delete the base currency adjustment.<br></br>
     /// </summary>
-    public class BaseCurrencyAdjustmentsApi:Api
+    public class BaseCurrencyAdjustmentsApi : Api
     {
-        static string baseAddress =baseurl + "/basecurrencyadjustment";
+        string baseAddress { get => baseurl + "/basecurrencyadjustment"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCurrencyAdjustmentsApi" /> class.
         /// </summary>

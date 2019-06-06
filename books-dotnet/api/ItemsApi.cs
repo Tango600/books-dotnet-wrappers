@@ -18,9 +18,10 @@ namespace zohobooks.api
     ///     Change the status of the item as either active or inactive,<br></br>
     ///     Delete the specified item from the list of items.
     /// </summary>
-    public class ItemsApi:Api
+    public class ItemsApi : Api
     {
-        static string baseAddress = baseurl + "/items";
+        string baseAddress { get => baseurl + "/items"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemsApi"/> class.
         /// </summary>
@@ -60,7 +61,7 @@ namespace zohobooks.api
         /// <returns>LineItem object.</returns>
         public LineItem Get(string item_id)
         {
-            string url = baseAddress+"/"+item_id;
+            string url = baseAddress + "/" + item_id;
             var response = ZohoHttpClient.get(url, getQueryParameters());
             return ItemParser.getItem(response);
         }
@@ -71,7 +72,7 @@ namespace zohobooks.api
         /// <returns>LineItem object.</returns>
         public LineItem Create(LineItem item_info)
         {
-            string url = baseAddress ;
+            string url = baseAddress;
             var json = JsonConvert.SerializeObject(item_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -84,7 +85,7 @@ namespace zohobooks.api
         /// <param name="item_id">The item_id is the identifier of the item.</param>
         /// <param name="update_info">The update_info is the LineItem object which contains the updation information.</param>
         /// <returns>LineItem object.</returns>
-        public LineItem Update(string item_id,LineItem update_info)
+        public LineItem Update(string item_id, LineItem update_info)
         {
             string url = baseAddress + "/" + item_id;
             var json = JsonConvert.SerializeObject(update_info);
@@ -100,7 +101,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The item has been deleted." </returns>
         public string Delete(string item_id)
         {
-            string url = baseAddress + "/" + item_id;;
+            string url = baseAddress + "/" + item_id; ;
             var response = ZohoHttpClient.delete(url, getQueryParameters());
             return ItemParser.getMessage(response);
         }
@@ -111,7 +112,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The item has been marked as active."</returns>
         public string MarkAsActive(string item_id)
         {
-            string url = baseAddress + "/" + item_id+"/active";
+            string url = baseAddress + "/" + item_id + "/active";
             var response = ZohoHttpClient.post(url, getQueryParameters());
             return ItemParser.getMessage(response);
         }

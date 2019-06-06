@@ -17,12 +17,13 @@ namespace zohobooks.api
     /// Get and update of the organization details,<br></br>
     /// Get the list of organizations for the user.<br></br>
     /// </summary>
-    public class OrganizationsApi:Api
+    public class OrganizationsApi : Api
     {
         /// <summary>
         /// The base address
         /// </summary>
-        static string baseAddress =baseurl + "/organizations";
+        string baseAddress { get => baseurl + "/organizations"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OrganizationsApi" /> class.
         /// </summary>
@@ -107,7 +108,7 @@ namespace zohobooks.api
         /// <param name="organization_address_id">The organization_address_id.</param>
         /// <param name="update_info">The update_info.</param>
         /// <returns>Address.</returns>
-        public Address UpdateOrganizationAddress(string organization_address_id,Address update_info)
+        public Address UpdateOrganizationAddress(string organization_address_id, Address update_info)
         {
             string url = baseAddress + "/address/" + organization_address_id;
             var json = JsonConvert.SerializeObject(update_info);

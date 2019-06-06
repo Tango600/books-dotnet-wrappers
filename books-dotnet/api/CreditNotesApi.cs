@@ -26,9 +26,10 @@ namespace zohobooks.api
     ///     Change the status as to open or void.<br></br>
     ///     Delete the existing creditnote,credits applied to the invoices, creitnote refund and comments of the specified credit note. <br></br>
     /// </summary>
-    public class CreditNotesApi:Api
+    public class CreditNotesApi : Api
     {
-        static string baseAddress =baseurl + "/creditnotes";
+        string baseAddress { get => baseurl + "/creditnotes"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CreditNotesApi" /> class.
         /// </summary>
@@ -83,7 +84,7 @@ namespace zohobooks.api
         /// <returns>Creditnote object.</returns>
         public CreditNote Get(string creitnote_id, Dictionary<object, object> parameters)
         {
-            string url = baseAddress+"/"+creitnote_id;
+            string url = baseAddress + "/" + creitnote_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters(parameters));
             return CreditNoteParser.getCreditnote(responce);
         }
@@ -146,9 +147,9 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The status of the credit note has been changed to open."</returns>
         public string ConvertToOpen(string creditnote_id)
         {
-            string url = baseAddress+"/"+creditnote_id+"/status/open";
+            string url = baseAddress + "/" + creditnote_id + "/status/open";
             var responce = ZohoHttpClient.post(url, getQueryParameters());
-            return CreditNoteParser.getMessage(responce); 
+            return CreditNoteParser.getMessage(responce);
         }
 
         /// <summary>
@@ -172,7 +173,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "Your credit note has been sent."</returns>
         public string SendEmail(string creditnote_id, EmailNotification mail_content_info, Dictionary<object, object> parameters)
         {
-            string url = baseAddress+"/"+creditnote_id+"/email";
+            string url = baseAddress + "/" + creditnote_id + "/email";
             var json = JsonConvert.SerializeObject(mail_content_info);
             parameters.Add("JSONString", json);
             var responce = ZohoHttpClient.post(url, getQueryParameters(parameters));
@@ -255,11 +256,11 @@ namespace zohobooks.api
         /// <returns>System.String.</returns>
         public string UpdateTemplate(string creditnote_id, string template_id)
         {
-            string url = baseAddress + "/" + creditnote_id + "/templates/"+template_id;
+            string url = baseAddress + "/" + creditnote_id + "/templates/" + template_id;
             var responce = ZohoHttpClient.put(url, getQueryParameters());
             return CreditNoteParser.getMessage(responce);
         }
-//---------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------
         /// <summary>
         /// List invoices to which the credit note is applied.
         /// </summary>
@@ -296,11 +297,11 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "Credits applied to an invoice have been deleted."</returns>
         public string DeleteInvoiceCredited(string creditnote_id, string creditnote_invoice_id)
         {
-            string url = baseAddress + "/" + creditnote_id + "/invoices/"+creditnote_invoice_id;
+            string url = baseAddress + "/" + creditnote_id + "/invoices/" + creditnote_invoice_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return CreditNoteParser.getMessage(responce);
         }
-//-------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------
         /// <summary>
         ///List all refunds with pagination.
         /// </summary>
@@ -325,7 +326,7 @@ namespace zohobooks.api
         /// <returns>CreditnoteRefundList object.</returns>
         public CreditNoteRefundList GetRefundsOfCrreditnote(string creditnote_id)
         {
-            string url = baseAddress +"/"+creditnote_id+ "/refunds";
+            string url = baseAddress + "/" + creditnote_id + "/refunds";
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return CreditNoteParser.getCreditnoteRefundList(responce);
         }
@@ -338,7 +339,7 @@ namespace zohobooks.api
         /// <returns>Creditnote.</returns>
         public CreditNote GetCreditnoteRefund(string creditnote_id, string creditnote_refund_id)
         {
-            string url = baseAddress +"/"+creditnote_id+ "/refunds"+creditnote_refund_id;
+            string url = baseAddress + "/" + creditnote_id + "/refunds" + creditnote_refund_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters());
             return CreditNoteParser.getCreditnoteRefund(responce);
         }
@@ -368,7 +369,7 @@ namespace zohobooks.api
         /// <returns>Creditnote object.</returns>
         public CreditNote UpdateRefund(string creditnote_id, string creditnote_refund_id, CreditNote update_info)
         {
-            string url = baseAddress + "/" + creditnote_id + "/refunds/"+creditnote_refund_id;
+            string url = baseAddress + "/" + creditnote_id + "/refunds/" + creditnote_refund_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -384,11 +385,11 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The refund has been successfully deleted."</returns>
         public string DeleteRefund(string creditnote_id, string creditnote_refund_id)
         {
-            string url = baseAddress + "/" + creditnote_id + "/refunds/"+creditnote_refund_id;
+            string url = baseAddress + "/" + creditnote_id + "/refunds/" + creditnote_refund_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return CreditNoteParser.getMessage(responce);
         }
-//-----------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------
         /// <summary>
         /// Get history and comments of a credit note.
         /// </summary>
@@ -425,7 +426,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The comment has been deleted."</returns>
         public string DeleteComment(string creditnote_id, string comment_id)
         {
-            string url = baseAddress + "/" + creditnote_id + "/comments/"+comment_id;
+            string url = baseAddress + "/" + creditnote_id + "/comments/" + comment_id;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             return CreditNoteParser.getMessage(responce);
         }

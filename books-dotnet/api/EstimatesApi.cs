@@ -22,10 +22,10 @@ namespace zohobooks.api
     ///     Marks the status as sent,accepted or declined.
     ///     Delete the specified estimate or its comment.
     /// </summary>
-    public class EstimatesApi:Api
+    public class EstimatesApi : Api
     {
-       
-        static string baseAddress =baseurl + "/estimates";
+        string baseAddress { get => baseurl + "/estimates"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EstimatesApi" /> class.
         /// </summary>
@@ -80,7 +80,7 @@ namespace zohobooks.api
         /// <returns>Estimate object.</returns>
         public Estimate Get(string estimate_id, Dictionary<object, object> parameters)
         {
-            string url = baseAddress+"/"+estimate_id;
+            string url = baseAddress + "/" + estimate_id;
             var responce = ZohoHttpClient.get(url, getQueryParameters(parameters));
             return EstimateParser.getEstimate(responce);
         }
@@ -188,8 +188,8 @@ namespace zohobooks.api
             var json = JsonConvert.SerializeObject(email_details);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
-            var files = new KeyValuePair<string, string[]>("attachments",attachment_paths);
-            var responce = ZohoHttpClient.post(url, getQueryParameters(),jsonstring,files);
+            var files = new KeyValuePair<string, string[]>("attachments", attachment_paths);
+            var responce = ZohoHttpClient.post(url, getQueryParameters(), jsonstring, files);
             return EstimateParser.getMessage(responce);
         }
 
@@ -233,7 +233,7 @@ namespace zohobooks.api
         {
             string url = baseAddress + "/pdf";
             ZohoHttpClient.getFile(url, getQueryParameters(parameters));
-            return "the selected estimates are exported " ;
+            return "the selected estimates are exported ";
         }
 
         /// <summary>
@@ -301,11 +301,11 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "Estimate information has been updated."</returns>
         public string UpdateTemplate(string estimate_id, string template_id)
         {
-            string url = baseAddress + "/" + estimate_id + "/templates/"+template_id;
+            string url = baseAddress + "/" + estimate_id + "/templates/" + template_id;
             var responce = ZohoHttpClient.put(url, getQueryParameters());
             return EstimateParser.getMessage(responce);
         }
-//--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the complete history and comments of an estimate.
         /// </summary>
@@ -343,7 +343,7 @@ namespace zohobooks.api
         /// <returns>Comment object.</returns>
         public Comment UpdateComment(string estimate_id, string comment_id, Comment update_info)
         {
-            string url = baseAddress + "/" + estimate_id + "/comments/"+comment_id;
+            string url = baseAddress + "/" + estimate_id + "/comments/" + comment_id;
             var json = JsonConvert.SerializeObject(update_info);
             var jsonstring = new Dictionary<object, object>();
             jsonstring.Add("JSONString", json);
@@ -359,7 +359,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The comment has been deleted."</returns>
         public string DeleteComment(string estimate_id, string comment_id)
         {
-            string url = baseAddress + "/" + estimate_id + "/comments/"+comment_id;;
+            string url = baseAddress + "/" + estimate_id + "/comments/" + comment_id; ;
             var responce = ZohoHttpClient.delete(url, getQueryParameters());
             StringBuilder queryString = new StringBuilder();
             return EstimateParser.getMessage(responce);

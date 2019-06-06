@@ -23,12 +23,13 @@ namespace zohobooks.api
     ///     Update or delete the existing recurring expense,<br></br>
     ///     Change the status as stop or resume the recurring expense.<br></br>
     /// </summary>
-    public class RecurringExpensesApi:Api
+    public class RecurringExpensesApi : Api
     {
         /// <summary>
         /// The base uri of the ZohobooksApi
         /// </summary>
-        static string baseAddress = baseurl + "/recurringexpenses";
+        string baseAddress { get => baseurl + "/recurringexpenses"; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecurringExpensesApi" /> class.
         /// </summary>
@@ -132,7 +133,7 @@ namespace zohobooks.api
         /// <returns>System.String.<br></br>The success message is "The recurring expense has been stopped."</returns>
         public string Stop(string recurring_expense_id)
         {
-            string url = baseAddress + "/" + recurring_expense_id+"/status/stop";
+            string url = baseAddress + "/" + recurring_expense_id + "/status/stop";
             var responce = ZohoHttpClient.post(url, getQueryParameters());
             return RecurringExpenseParser.getMessage(responce);
         }
